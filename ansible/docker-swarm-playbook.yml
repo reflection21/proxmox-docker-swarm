@@ -1,0 +1,10 @@
+---
+- name: deploy swarm manager
+  hosts: swarm_manager
+  roles:
+    - swarm_manager
+
+- name: deploy swarm worker
+  hosts: swarm_worker
+  roles:
+    - swarm_worker

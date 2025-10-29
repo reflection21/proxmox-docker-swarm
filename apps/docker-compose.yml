@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  frontend:
+    image: sweaty1111/sky_service_frontend:0.0.1
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - mynet
+
+  backend:
+    image: sweaty1111/sky_service_flask:0.0.1
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge

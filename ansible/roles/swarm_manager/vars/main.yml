@@ -1,0 +1,5 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for swarm-manager
+swarm_port: 2377
+docker_package: docker.io

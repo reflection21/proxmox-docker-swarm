@@ -1,0 +1,41 @@
+# tasks file for swarm-worker
+---
+- name: update
+  apt:
+    update_cache: true
+  become: true
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  become: true
+  tags: install docker
+
+- name: Add Docker apt repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+  become: true
+  notify: update_cache_docker
+  tags: install_docker
+
+# install Docker 
+- name: Install Docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+  become: true
+  notify: restart_docker
+  tags: install_docker
+
+- name: Add ubuntu user to docker group
+  user:
+    name: artem
+    groups: docker
+    append: true
+  become: true
+  tags: install_docker

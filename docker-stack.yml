@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  frontend:
+    image: sweaty1111/sky_service_frontend:0.0.1
+    ports:
+      - "443:443"
+      - "80:80"
+    networks:
+      - frontend
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
+
+  backend:
+    image: sweaty1111/sky_service_flask:0.0.1
+    networks:
+      - frontend
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
+
+networks:
+  frontend:
+    driver: overlay
+  backend:
+    driver: overlay
